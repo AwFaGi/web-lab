@@ -130,6 +130,10 @@ input[type=submit]:disabled {
     cursor: inherit;
 }
 
+#table_div {
+    margin-top: 20px;
+}
+
 table {
     border: 3px solid blueviolet;
     border-collapse: collapse;

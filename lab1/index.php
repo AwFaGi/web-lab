@@ -94,7 +94,6 @@
 
     <div id="table_div">
       <table>
-        <caption>Результаты</caption>
         <thead>
           <tr>
             <th>X</th>
