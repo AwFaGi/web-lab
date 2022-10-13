@@ -1,6 +1,7 @@
 <%@ page import="com.lab.util.Model" %>
 <%@ page import="com.lab.util.Point" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -142,6 +143,8 @@
                 <th>X</th>
                 <th>Y</th>
                 <th>R</th>
+                <th>Время запроса</th>
+                <th>Время работы, мкс</th>
                 <th>Результат</th>
             </tr>
             </thead>
@@ -163,6 +166,10 @@
                         out.print("<td>" + String.valueOf(point.getX()) + "</td>");
                         out.print("<td>" + String.valueOf(point.getY()) + "</td>");
                         out.print("<td>" + String.valueOf(point.getR()) + "</td>");
+                        out.print("<td>" + point.getTimeStamp().format(
+                                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+                        ) + "</td>");
+                        out.print("<td>" + String.valueOf(point.getWorkingTime()) + "</td>");
                         String result = point.getStatus() ? "HIT": "MISS";
                         out.print("<td>" + result + "</td>");
                         out.println("</tr>");

@@ -14,6 +14,7 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long startTime = System.nanoTime();
         String x_string = request.getParameter("x_value");
         String y_string = request.getParameter("y_value");
         String r_string = request.getParameter("r_value");
@@ -53,12 +54,11 @@ public class AreaCheckServlet extends HttpServlet {
         } else {
             model = (Model) supposedToBeModel;
         }
+        point.setWorkingTime((System.nanoTime() - startTime) / 1000);
         model.add(point);
         getServletContext().setAttribute(getString, model);
 
         /* show result html page */
-        PrintWriter writer = response.getWriter();
-
         response.sendRedirect("/result.jsp");
     }
 }
