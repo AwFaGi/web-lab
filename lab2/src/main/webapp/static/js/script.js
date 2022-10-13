@@ -86,10 +86,11 @@ function getCursorPosition(canvas, event) {
     const r = document.querySelector("#form_right > div.checkbox_wrapper > input[type=checkbox]:checked")
         .getAttribute("value");
 
-    window.location.href = "/controller?"
-        + "x_value=" + x.toFixed(2)
-        + "&y_value=" + y.toFixed(2)
-        + "&r_value=" + r;
+    let form = document.querySelector("#place_for_form > form");
+    form.querySelector("#form_left input[type=checkbox]:checked").value = x.toFixed(2);
+    form.querySelector("#form_center #y_value").value = y.toFixed(2);
+    form.submit();
+
 }
 
 function redraw_axes(){

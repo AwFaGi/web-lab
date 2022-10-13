@@ -127,7 +127,7 @@
                 <div class="line_breaker"></div>
 
                 <%-- Submit button --%>
-                <input type="submit" name="submit" value="Отправить" />
+                <input type="submit" name="btnSubmit" value="Отправить" />
 
             </div>
 
