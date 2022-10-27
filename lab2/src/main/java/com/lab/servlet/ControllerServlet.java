@@ -14,12 +14,13 @@ public class ControllerServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         /* validate presence*/
-        String x_string = request.getParameter("x_value");
-        String y_string = request.getParameter("y_value");
-        String r_string = request.getParameter("r_value");
+        String xString = request.getParameter("x_value");
+        String yString = request.getParameter("y_value");
+        String rString = request.getParameter("r_value");
 
-        if (x_string == null || y_string == null || r_string == null){
-            response.sendRedirect("/error/1");
+        if (xString == null || yString == null || rString == null){
+            request.setAttribute("errorMessage", "418. You are a teapot!");
+            getServletContext().getRequestDispatcher("/error.jsp").forward(request, response);
         }
 
         getServletContext().getRequestDispatcher("/area-check").forward(request, response);

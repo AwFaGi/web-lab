@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@Deprecated
 @WebServlet(name = "ErrorServlet", value = "/error/*")
 public class ErrorServlet extends HttpServlet {
 

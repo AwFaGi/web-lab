@@ -49,7 +49,7 @@
                     out.print("<td>" + point.getTimeStamp().format(
                             DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
                     ) + "</td>");
-                    out.print("<td>" + String.valueOf(point.getWorkingTime()) + "</td>");
+                    out.print("<td>" + String.valueOf(point.getWorkingTime()-) + "</td>");
                     String result = point.getStatus() ? "HIT": "MISS";
                     out.print("<td>" + result + "</td>");
                     out.println("</tr>");
