@@ -160,28 +160,38 @@ function redraw_labels(r_value){
     context.lineTo(5, -Math.floor(r_value/2 * canvas_scale));
     context.stroke();
 }
-function redraw_points(){
+function redraw_points(r_value){
     context.save();
     let table = document.getElementById("maintable");
     for (let row of table.rows)
     {
         try{
 
-            if(row.cells[0].innerText === "" || row.cells[1].innerText === "" || row.cells[5].innerText===""){
+            if(row.cells[0].innerText === "" || row.cells[1].innerText === ""
+                || row.cells[2].innerText==="" || row.cells[5].innerText === ""){
                 continue;
             }
 
-            let x = Number(row.cells[0].innerText);
-            let y = Number(row.cells[1].innerText);
+            let point_x = Number(row.cells[0].innerText);
+            let point_y = Number(row.cells[1].innerText);
+            let point_r = Number(row.cells[2].innerText);
 
-            if (row.cells[5].innerText === "HIT"){
-                context.fillStyle = "#00ff00";
+            if(isNaN(point_x) || isNaN(point_y)){
+                continue;
+            }
+
+            if (point_r === Number(r_value)){
+                if (row.cells[5].innerText === "HIT"){
+                    context.fillStyle = "#00ff00";
+                }else {
+                    context.fillStyle = "#ff0000";
+                }
             }else {
-                context.fillStyle = "#ff0000";
+                context.fillStyle = "#ffff00";
             }
 
             context.beginPath(); //Start path
-            context.arc(x * canvas_scale, y * canvas_scale,
+            context.arc(point_x * canvas_scale, point_y * canvas_scale,
                 4, 0, Math.PI * 2
             );
             context.fill();
@@ -237,7 +247,7 @@ function redraw_canvas(r_value){
     redraw_labels(r_value);
 
     //points
-    redraw_points();
+    redraw_points(r_value);
 }
 
 function mybigupdater(){

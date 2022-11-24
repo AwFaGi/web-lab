@@ -1,6 +1,7 @@
 package org.example.beans;
 
 import java.io.Serializable;
+import java.time.ZoneId;
 
 public class Point implements Serializable {
     public void setX(double x) {
@@ -19,16 +20,6 @@ public class Point implements Serializable {
     private double y=-5;
     private double r=2;
 
-    private Model model;
-
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
     public Point(){
 
     }
@@ -45,12 +36,5 @@ public class Point implements Serializable {
         return r;
     }
 
-    public void doExtend() {
-        ExtendedPoint point = new ExtendedPoint();
-        point.setX(x);
-        point.setY(y);
-        point.setR(r);
-        point.selfEval();
-        model.add(point);
-    }
+
 }

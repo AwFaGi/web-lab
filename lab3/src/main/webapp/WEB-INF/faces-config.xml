@@ -9,6 +9,7 @@
             <description>Переход на основную страницу</description>
             <from-outcome>gotoMain</from-outcome>
             <to-view-id>/main.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -17,6 +18,7 @@
             <description>Переход на стартовую страницу</description>
             <from-outcome>gotoStart</from-outcome>
             <to-view-id>/start.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
     <managed-bean>
@@ -33,9 +35,18 @@
         <managed-bean-name>point</managed-bean-name>
         <managed-bean-class>org.example.beans.Point</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>thisIsMyBean</managed-bean-name>
+        <managed-bean-class>org.example.beans.ThisIsMyBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
         <managed-property>
             <property-name>model</property-name>
             <value>#{model}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>point</property-name>
+            <value>#{point}</value>
         </managed-property>
     </managed-bean>
 </faces-config>

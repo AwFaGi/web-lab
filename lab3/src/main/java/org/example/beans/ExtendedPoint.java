@@ -1,8 +1,11 @@
 package org.example.beans;
 
 import org.example.util.AreaInValidator;
+import org.example.util.CustomFormatter;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 public class ExtendedPoint {
     public void setX(double x) {
@@ -13,18 +16,17 @@ public class ExtendedPoint {
         this.y = y;
     }
 
-    public void setR(double r) {
-        this.r = r;
-    }
-
     private double x;
     private double y;
     private double r;
     private boolean status;
-    private LocalDateTime timeStamp;
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
+    private Instant timeStamp;
+    public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public void setR(double r) {
+        this.r = r;
     }
 
     private long workingTime;
@@ -57,16 +59,31 @@ public class ExtendedPoint {
         return r;
     }
 
-    public LocalDateTime getTimeStamp() {
+    public Instant getTimeStamp() {
         return timeStamp;
     }
+
+    public ZoneId getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(ZoneId zoneId) {
+        this.zoneId = zoneId;
+    }
+
+    private ZoneId zoneId;
+
+    public String getTimeStampFormatted(){
+        return timeStamp.atZone(zoneId).format(CustomFormatter.getFormatterAtOffset(zoneId));
+    }
+
     public long getWorkingTime() {
         return workingTime;
     }
 
     public void selfEval() {
         long startTime = System.nanoTime();
-        setTimeStamp(java.time.LocalDateTime.now());
+        setTimeStamp(Instant.now());
         setX(this.x);
         setY(this.y);
         setR(this.r);

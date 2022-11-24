@@ -4,6 +4,9 @@ package org.example.util;
 import org.example.beans.ExtendedPoint;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.NoSuchElementException;
 
 public class Connector {
     private static final Connector INSTANCE = new Connector();
@@ -16,10 +19,14 @@ public class Connector {
 
     private Connector(){
         try {
-            String finalConnectionString;
-            finalConnectionString = "jdbc:postgresql://localhost:5432/database";
-            String name = "USERNAME";
-            String pass = "ARIGATO";
+            String finalConnectionString = System.getProperty("DB.link");
+            String name = System.getProperty("DB.user");
+            String pass = System.getProperty("DB.pass");
+
+            if (finalConnectionString == null || name == null || pass == null){
+                throw new NoSuchElementException("Set DB.link, DB.user, DB.pass properties");
+            }
+
             connection = DriverManager.getConnection(
                     finalConnectionString,
                     name,
@@ -27,7 +34,8 @@ public class Connector {
             );
             initDB();
         }catch (SQLException e){
-            e.printStackTrace();
+            System.err.println("Error on creating database connection");
+            System.err.println(e.getMessage());
             System.exit(-1);
         }
     }
@@ -41,7 +49,7 @@ public class Connector {
             statement.setDouble(1, extendedPoint.getX());
             statement.setDouble(2, extendedPoint.getY());
             statement.setDouble(3, extendedPoint.getR());
-            statement.setTimestamp(4, Timestamp.valueOf(extendedPoint.getTimeStamp()));
+            statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.ofInstant(extendedPoint.getTimeStamp(), ZoneOffset.UTC)));
             statement.setLong(5, extendedPoint.getWorkingTime());
             statement.setBoolean(6, extendedPoint.getStatus());
             statement.execute();

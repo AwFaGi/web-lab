@@ -7,6 +7,15 @@
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
+
+    <h:form prependId="false">
+        <h:inputText id="bigTZ" value="#{model.timezoneOffset}" styleClass="customHide">
+            <f:ajax listener="#{model.timezoneChangedListener}" />
+        </h:inputText>
+    </h:form>
+
+    <h:outputScript library="js" name="hehescript.js"/>
+
     <div id="sidebar">
         <div id="sidebar_content">
             <h:graphicImage name="img/area.png" alt="plot"/>
@@ -27,7 +36,7 @@
 
     <div id="place_for_form">
 
-        <h:form id="thisIsForm" action="#{point.doExtend()}">
+        <h:form id="thisIsForm" action="#{thisIsMyBean.doExtend()}">
 
             <div class="form_wrapper">
 
@@ -72,7 +81,7 @@
 
                 <!-- Submit button -->
                 <h:commandButton type="submit" name="btnSubmit" value="Отправить">
-                    <f:ajax execute="@form" render="maintable" listener="#{point.doExtend()}"/>
+                    <f:ajax execute="@form" render="maintable" listener="#{thisIsMyBean.doExtend()}"/>
                 </h:commandButton>
 
             </div>
@@ -106,7 +115,7 @@
                 <f:facet name="header">
                     <h:outputText value="Время запроса" />
                 </f:facet>
-                <h:outputText value="#{row.timeStamp}" />
+                <h:outputText value="#{row.getTimeStampFormatted()}" />
             </h:column>
             <h:column>
                 <f:facet name="header">
