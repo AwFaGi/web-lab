@@ -1,11 +1,11 @@
-import React, {Fragment} from "react";
+import React from "react";
 import PointService from "../../service/PointService";
 import {connect, useDispatch} from "react-redux";
 import TableRow from "./TableRow";
 import ReactPaginate from "react-paginate";
-import {setCount} from "../../redux/pointSlice";
+import pointUpdater from "../../service/PointUpdater";
+import {setCurrentPage} from "../../redux/pointSlice";
 
-const PAGE_SIZE = 10;
 
 class LocalTable extends React.Component {
 
@@ -15,39 +15,43 @@ class LocalTable extends React.Component {
     }
 
     handlePageClick(event){
-        console.log(event.selected);
-        this.props.dispatch(setCount(event.selected));
+        console.log("я пришёл из пагинатора ", event.selected);
+        pointUpdater(this.props.dispatch, this.props.pointService, this.props.jwtToken, event.selected);
+        setCurrentPage(event.selected);
+    }
+
+    componentDidMount() {
+        pointUpdater(this.props.dispatch, this.props.pointService, this.props.jwtToken, 0);
     }
 
     render() {
         return (
             <div className={"col s12"}>
                 <div className={"row"}>
-                    <table className={"col s12 push-s0 m10 push-m1 xl10 push-xl1 centered striped"}>
-                        <tbody>
-                            <tr className={"row"}>
-                                <td className={"col s1 header-line"}>X</td>
-                                <td className={"col s1 header-line"}>Y</td>
-                                <td className={"col s1 header-line"}>R</td>
-                                <td className={"col s2 header-line"}>Статус</td>
-                                <td className={"col s4 header-line"}>Время запроса</td>
-                                <td className={"col s3 header-line"}>Время работы</td>
-                            </tr>
 
-                            {this.props.points.slice(
-                                this.props.pageCount * PAGE_SIZE,
-                                (this.props.pageCount + 1) * PAGE_SIZE
-                            ).map(row => (
-                                <TableRow row={row} />
-                            ))}
-                        </tbody>
+                    <table className={"col s12 push-s0 m10 push-m1 xl10 push-xl1 centered striped"}>
+
+                            <tbody>
+                                <tr className={"row"}>
+                                    <td className={"col s1 header-line"}>X</td>
+                                    <td className={"col s1 header-line"}>Y</td>
+                                    <td className={"col s1 header-line"}>R</td>
+                                    <td className={"col s2 header-line"}>Статус</td>
+                                    <td className={"col s4 header-line"}>Время запроса</td>
+                                    <td className={"col s3 header-line"}>Время работы</td>
+                                </tr>
+
+                                {this.props.points.map(row => (
+                                    <TableRow row={row} />
+                                ))}
+                            </tbody>
 
                     </table>
                 </div>
                 <div className={"row"}>
                     <div className={"col s12 center-align"}>
                         <ReactPaginate className={"pagination"}
-                                       pageCount={ Math.ceil(this.props.points.length / 10) }
+                                       pageCount={ this.props.totalPages }
                                        breakLabel="..."
                                        nextLabel="Туда"
                                        onPageChange={this.handlePageClick}
@@ -57,6 +61,7 @@ class LocalTable extends React.Component {
                                        pageClassName={"waves-light"}
                                        activeClassName={"active"}
                                        disabledClassName={"disabled"}
+                                       disableInitialCallback={false}
                         />
                     </div>
 
@@ -78,7 +83,8 @@ const mapStateToProps = function(state) {
     return {
         jwtToken: state.user.jwtToken,
         points: state.point.points,
-        pageCount: state.point.count
+        totalPages: state.point.totalPages,
+
     }
 }
 

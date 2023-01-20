@@ -3,17 +3,13 @@ package com.example.lab4.controller;
 import com.example.lab4.dto.JwtDTO;
 import com.example.lab4.dto.MessageDTO;
 import com.example.lab4.dto.UserDTO;
-import com.example.lab4.entity.Point;
 import com.example.lab4.entity.User;
 import com.example.lab4.security.JwtUtil;
 import com.example.lab4.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -21,9 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -37,6 +30,10 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@Validated @RequestBody UserDTO userDTO){
         String username = userDTO.getUsername();
+
+        if (!username.matches("^[a-zA-Z]{3,10}$") || !userDTO.getPassword().matches("^[a-zA-Z]{3,10}$")){
+            return ResponseEntity.badRequest().body(new MessageDTO(true, "Таки взломать хотели!"));
+        }
 
         if(username.isBlank() || userDTO.getPassword().isBlank()){
             return ResponseEntity.badRequest().body(new MessageDTO(true, "Неверный логин или пароль"));
@@ -52,16 +49,16 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageDTO(true, "Неверный логин или пароль"));
         }
 
-//        System.out.println("auth controller /login");
-//        System.out.println(userDetails);
-//        System.out.println(userDetails.getPassword());
-
         return ResponseEntity.ok(new JwtDTO(username, jwtUtil.generateToken(username)));
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@Validated @RequestBody UserDTO userDTO){
         String username = userDTO.getUsername();
+
+        if (!username.matches("^[a-zA-Z]{3,10}$") || !userDTO.getPassword().matches("^[a-zA-Z]{3,10}$")){
+            return ResponseEntity.badRequest().body(new MessageDTO(true, "Таки взломать хотели!"));
+        }
 
         if(username.isBlank() || userDTO.getPassword().isBlank()){
             return ResponseEntity.badRequest().body(new MessageDTO(true, "Неверный логин или пароль"));

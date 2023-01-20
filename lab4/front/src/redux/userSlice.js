@@ -9,11 +9,9 @@ export const userSlice = createSlice({
     },
     reducers: {
         setIsLogged: (state, action) => {
-            console.log(state, action);
             state.isLogged = action.payload;
         },
         setUsername: (state, action) => {
-            console.log(state, action);
             state.username = action.payload;
         },
         setJwtToken: (state, action) => {

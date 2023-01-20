@@ -9,11 +9,6 @@ import pointUpdater from "../../service/PointUpdater";
 
 function PreMainPage(props) {
 
-    const pointService = new PointService();
-    const dispatch = useDispatch();
-
-    pointUpdater(dispatch, pointService, props.jwtToken);
-
     return (
         <div className={"row"}>
             { !props.isLogged && <Navigate to={"/"}/>}
@@ -37,7 +32,6 @@ function PreMainPage(props) {
 }
 
 const mapStateToProps = function(state) {
-    console.log("mp", state);
     return {
         username: state.user.username,
         isLogged: state.user.isLogged,

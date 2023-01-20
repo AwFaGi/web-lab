@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/points")
 public class PointController {
+    private final long PAGE_SIZE = 10L;
     private UserService userService;
     private PointCheckService pointCheckService;
     private PointRepository pointRepository;
@@ -40,13 +41,23 @@ public class PointController {
     }
 
     @GetMapping(value = "/list", produces = "application/json")
-    ResponseEntity<?> getUserPoints() {
+    ResponseEntity<?> getUserPoints(int page) {
         String username = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         com.example.lab4.entity.User user = userService.findUserByUsername(username);
         return ResponseEntity.ok(
                 pointRepository.findAllByUser(user).stream()
                         .map(RowDTO::new).sorted(Comparator.comparing(RowDTO::getTimeStamp).reversed())
+                        .skip(page * PAGE_SIZE).limit(PAGE_SIZE)
                         .collect(Collectors.toList())
+        );
+    }
+
+    @GetMapping(value = "/count", produces = "application/json")
+    ResponseEntity<?> getPointsCount() {
+        String username = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        com.example.lab4.entity.User user = userService.findUserByUsername(username);
+        return ResponseEntity.ok(
+                pointRepository.findAllByUser(user).size()
         );
     }
 }

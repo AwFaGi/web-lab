@@ -12,7 +12,7 @@ div:has(> header) {
 }
 
 body {
-    background-image: url("../public/bgi.jpg");
+    background-image: url("bgi.jpg");
     background-size: revert;
     background-repeat: repeat-y;
     background-color: khaki;
@@ -24,6 +24,10 @@ body {
     border-radius: 25px;
     box-shadow: 0 0 5px 3px khaki;
 
+}
+
+.page-frame:has( table ) {
+    min-height: 530px;
 }
 
 #updating-clock {
@@ -43,7 +47,7 @@ body {
 td {
     margin: 5px 0;
     border-bottom: 1px solid black;
-    border-bottom: 1px solid black;
+    /*border-bottom: 1px solid black;*/
 }
 
 canvas {

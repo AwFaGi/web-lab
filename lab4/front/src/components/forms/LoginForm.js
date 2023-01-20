@@ -17,7 +17,6 @@ class LocalLoginForm extends React.Component{
     doLogin(event){
         const [username, password] = event.target;
 
-        //todo validation
         if(username.value.trim() === "" || password.value.trim() === ""){
             createToast('Поля не должны быть пустыми!');
             event.preventDefault();
@@ -26,6 +25,12 @@ class LocalLoginForm extends React.Component{
 
         if(username.value.indexOf(" ") >= 0 || password.value.indexOf(" ") >= 0){
             createToast('Поля не должны содержать пробелов!');
+            event.preventDefault();
+            return;
+        }
+
+        if( !username.value.match(/^[a-zA-Z]{3,10}$/) || !password.value.match(/^[a-zA-Z]{3,10}$/)){
+            createToast('Можно использовать только<br/>латинские буквы (3-10)');
             event.preventDefault();
             return;
         }
@@ -64,13 +69,13 @@ class LocalLoginForm extends React.Component{
                     <div className={"row"}>
                         <div className={"input-field col s12"}>
 
-                            <input id="login" type="text" className={"validate"}/>
+                            <input id="login" type="text"/>
                             <label htmlFor="login">Логин</label>
                         </div>
                     </div>
                     <div className={"row"}>
                         <div className="input-field col s12">
-                            <input id="password" type="password" className="validate"/>
+                            <input id="password" type="password"/>
                             <label htmlFor="password">Пароль</label>
                         </div>
                     </div>

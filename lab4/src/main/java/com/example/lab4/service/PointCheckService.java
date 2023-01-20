@@ -29,7 +29,7 @@ public class PointCheckService {
         } else if (x <= 0 && y <= 0) { // 3
             return false;
         } else if (x >= 0 && y <= 0) { // 4
-            return x <= r && y <= r/2;
+            return x <= r && y >= -r/2;
         }
         return false;
     }

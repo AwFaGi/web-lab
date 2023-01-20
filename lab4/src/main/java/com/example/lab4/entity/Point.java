@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.time.ZoneId;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +23,7 @@ public class Point {
     private Instant timeStamp;
     private long workingTime;
 
-    @ManyToOne
+    @ManyToOne()
     private User user;
 
     public Point(RowDTO rowDTO, User user){

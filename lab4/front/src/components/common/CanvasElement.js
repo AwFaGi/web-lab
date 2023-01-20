@@ -1,6 +1,5 @@
 import React from "react";
 import {connect} from "react-redux";
-import {addPoint} from "../../redux/pointSlice";
 import pointUpdater from "../../service/PointUpdater";
 import PointService from "../../service/PointService";
 
@@ -61,14 +60,12 @@ class LocalCanvasComponent extends React.Component {
 
         this.props.pointService.sendPoint(
             x.toFixed(2), y.toFixed(2), this.props.r_value, this.props.jwtToken
-        ).then(
-            result => {
-                if (result.status === 200){
-                    this.props.dispatch(addPoint(result.data));
-                    pointUpdater(this.props.dispatch, this.props.pointService, this.props.jwtToken);
-                }
-            }
-        )
+        ).then(r => {
+            console.log("point sent");
+            console.log("canvas try to update points");
+            pointUpdater(this.props.dispatch, this.props.pointService, this.props.jwtToken, this.props.currentPage);
+            this.updateCanvas();
+        })
 
         event.preventDefault();
 
@@ -248,6 +245,7 @@ const mapStateToProps = function(state) {
     return {
         jwtToken: state.user.jwtToken,
         points: state.point.points,
+        currentPage: state.point.currentPage,
         r_value: state.formState.r
     }
 }

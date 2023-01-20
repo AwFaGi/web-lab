@@ -46,6 +46,18 @@ public class SecurityConfig{
         http = http.authorizeHttpRequests()
                 .requestMatchers("/auth/register").permitAll()
                 .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/main").permitAll()
+                .requestMatchers("/register").permitAll()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/*.html").permitAll()
+                .requestMatchers("/static/js/*").permitAll()
+                .requestMatchers("/static/media/*").permitAll()
+                .requestMatchers("/static/css/*").permitAll()
+                .requestMatchers("/favicon.ico").permitAll()
+                .requestMatchers("/logo192.png").permitAll()
+                .requestMatchers("/logo512.png").permitAll()
+                .requestMatchers("/static/css/*").permitAll()
                 .anyRequest().authenticated().and();
 
         http = http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

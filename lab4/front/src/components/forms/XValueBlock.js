@@ -96,7 +96,6 @@ const PatchedXValueBlock = (props) => {
 }
 
 const mapStateToProps = function(state) {
-    console.log(state);
     return {
         x_value: state.formState.x
     }

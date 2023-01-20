@@ -1,17 +1,19 @@
 import axios from "axios";
 
-const API_URL="http://localhost:8080/points/"
+const API_URL="http://localhost:27800/points/"
 
 class PointService {
-    getPoints(jwtToken){
+    getPoints(jwtToken, page){
         return axios.get(API_URL + "list", {
+            params: {
+                page: page
+            },
             headers: {
                 'Authorization': 'Bearer ' + jwtToken
             }
         })
     };
 
-    // todo change over post
     sendPoint(x, y, r, jwtToken){
         return axios.post(API_URL + "add", {
                     'x': x,
@@ -23,6 +25,14 @@ class PointService {
             }
         })
     };
+
+    getPointCount(jwtToken){
+        return axios.get(API_URL + "count", {
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken
+            }
+        })
+    }
 
 }
 

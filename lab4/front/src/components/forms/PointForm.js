@@ -3,7 +3,6 @@ import {connect, useDispatch} from "react-redux";
 import XValueBlock from "./XValueBlock";
 import RValueBlock from "./RValueBlock";
 import PointService from "../../service/PointService";
-import {addPoint} from "../../redux/pointSlice";
 import {setY} from "../../redux/formStateSlice";
 import pointUpdater from "../../service/PointUpdater";
 
@@ -15,19 +14,27 @@ class LocalPointForm extends React.Component{
         this.doSend = this.doSend.bind(this);
         this.validateY = this.validateY.bind(this);
         this.setBtnRef = this.setBtnRef.bind(this);
+        this.isProcessing = false;
     }
 
     doSend(event){
 
+        if (this.isProcessing){
+            event.preventDefault();
+            return;
+        }
+
+        this.isProcessing = true;
+
         this.props.pointService.sendPoint(this.props.x, this.props.y, this.props.r, this.props.jwtToken).then(
             result => {
                 if (result.status === 200){
-                    this.props.dispatch(addPoint(result.data));
-                    pointUpdater(this.props.dispatch, this.props.pointService, this.props.jwtToken);
+                    pointUpdater(this.props.dispatch, this.props.pointService, this.props.jwtToken, this.props.currentPage);
                 }
             }
         )
 
+        this.isProcessing = false;
         event.preventDefault();
     }
 
@@ -69,7 +76,7 @@ class LocalPointForm extends React.Component{
                     </div>
                     <div className={"row"}>
                         <div className="input-field col s8 push-s2">
-                            <input id="last_name" type="text" onInput={this.validateY}/>
+                            <input id="last_name" type="text" onInput={this.validateY} maxLength={4}/>
                             <label htmlFor="last_name">Значение Y</label>
                         </div>
                     </div>
@@ -101,6 +108,7 @@ const mapStateToProps = function(state) {
         x: state.formState.x,
         y: state.formState.y,
         r: state.formState.r,
+        currentPage: state.point.currentPage,
     }
 }
 

@@ -100,7 +100,6 @@ const PatchedRValueBlock = (props) => {
 }
 
 const mapStateToProps = function(state) {
-    console.log(state);
     return {
         r_value: state.formState.r
     }

@@ -16,7 +16,6 @@ class LocalRegisterForm extends React.Component{
     doRegister(event){
         const [username, password] = event.target;
 
-        //todo validation
         if(username.value.trim() === "" || password.value.trim() === ""){
             createToast('Поля не должны быть пустыми!');
             event.preventDefault();
@@ -29,10 +28,17 @@ class LocalRegisterForm extends React.Component{
             return;
         }
 
+        if( !username.value.match(/^[a-zA-Z]{3,10}$/) || !password.value.match(/^[a-zA-Z]{3,10}$/)){
+            createToast('Можно использовать только<br/>латинские буквы (3-10)');
+            event.preventDefault();
+            return;
+        }
+
         this.props.authService.register(username.value, password.value)
             .then(result => {
                 if (result.status === 200 && !result.data.error){
                     createToast('Успешно!');
+                    this.props.navigate("/login");
                 }
             }).catch(reason => {
                 if ( reason.response !== undefined && reason.response.status === 400){
@@ -59,13 +65,13 @@ class LocalRegisterForm extends React.Component{
 
                         <div className="input-field col s12">
 
-                            <input id="login" type="text" className="validate"/>
+                            <input id="login" type="text"/>
                             <label htmlFor="login">Логин</label>
                         </div>
                     </div>
                     <div className={"row"}>
                         <div className="input-field col s12">
-                            <input id="password" type="password" className="validate"/>
+                            <input id="password" type="password"/>
                             <label htmlFor="password">Пароль</label>
                         </div>
                     </div>
