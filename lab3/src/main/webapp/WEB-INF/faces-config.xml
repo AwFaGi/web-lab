@@ -32,6 +32,11 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>infoBean</managed-bean-name>
+        <managed-bean-class>org.example.beans.InfoBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>point</managed-bean-name>
         <managed-bean-class>org.example.beans.Point</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -47,6 +52,10 @@
         <managed-property>
             <property-name>point</property-name>
             <value>#{point}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>infoBean</property-name>
+            <value>#{infoBean}</value>
         </managed-property>
     </managed-bean>
 </faces-config>

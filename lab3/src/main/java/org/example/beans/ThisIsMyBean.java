@@ -6,6 +6,16 @@ public class ThisIsMyBean {
 
     private Point point;
 
+    private InfoBean infoBean;
+
+    public InfoBean getInfoBean() {
+        return infoBean;
+    }
+
+    public void setInfoBean(InfoBean infoBean) {
+        this.infoBean = infoBean;
+    }
+
     public Model getModel() {
         return model;
     }
@@ -31,6 +41,9 @@ public class ThisIsMyBean {
         extendedPoint.selfEval();
         model.add(extendedPoint);
         System.out.println(extendedPoint);
+
+        infoBean.registerShot(extendedPoint.getR(), extendedPoint.getStatus());
+
     }
 
 }
